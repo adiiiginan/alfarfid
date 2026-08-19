@@ -1,0 +1,19 @@
+### Test scan-events endpoint (ESP32 simulation)
+POST http://192.168.1.105/alfarfid/public/api/scan-events
+Content-Type: application/json
+X-Device-Mac: 20:e7:c8:b3:17:84
+X-Api-Key: NGGE76cc8Su8wCwS45XbHXguyLl9jQzVN0PcvS3k
+
+{
+    "tag_uid": "00E2806894000050315DD339",
+    "event_type": "pre_autoclave"
+}
+
+### Test tanpa header (harus dapat 401 "Header wajib diisi")
+POST http://192.168.1.105/alfarfid/public/api/scan-events
+Content-Type: application/json
+
+{
+    "tag_uid": "00E2806894000050315DD339",
+    "event_type": "pre_autoclave"
+}
