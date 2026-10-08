@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entity Relationship Diagram (ERD) - AlfarFID</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .mermaid svg {
+      max-width: 100% !important;
+      height: auto;
+      filter: drop-shadow(0 4px 6px -1px rgb(0 0 0 / 0.05));
+    }
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800">
+  <!-- Header Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+          AF
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-900 leading-tight">AlfarFID Smart Cleanroom</h1>
+          <p class="text-xs text-slate-500 font-medium">Entity Relationship Diagram (Database Schema)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="btnZoomIn" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-xs font-semibold transition">
+          🔍 Zoom In
+        </button>
+        <button id="btnZoomOut" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-xs font-semibold transition">
+          🔍 Zoom Out
+        </button>
+        <button id="btnResetZoom" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-xs font-semibold transition">
+          🔄 Reset
+        </button>
+        <button id="btnDownloadSvg" class="px-3.5 py-1.5 bg-sky-600 hover:bg-sky-700 text-white rounded-md text-xs font-semibold shadow-sm transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Unduh SVG
+        </button>
+        <button id="btnDownloadPng" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md text-xs font-semibold shadow-sm transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Unduh PNG
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <!-- Info Banner -->
+    <div class="bg-sky-50 border border-sky-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+      <div class="text-sky-600 mt-0.5">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <div class="text-xs text-sky-900 leading-relaxed">
+        <span class="font-bold">Informasi Database:</span> Berisi 13 tabel relasional inti sistem AlfarFID Cleanroom dengan primary key berbasis <code>UUID (CHAR 36)</code>. Menghubungkan entitas fisik (Garment, Tag UHF, Perangkat IoT ESP32) dengan sesi sterilisasi autoclave, histori pembacaan (Scan Events), peringatan (Alerts), dan Audit Log regulasi.
+      </div>
+    </div>
+
+    <!-- Diagram Box -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden mb-6">
+      <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center justify-between text-xs font-semibold text-slate-600">
+        <span>Visualisasi Skema Basis Data (Mermaid ERD)</span>
+        <span class="text-slate-400">Gunakan scroll mouse atau tombol di atas untuk zoom</span>
+      </div>
+      <div id="diagramContainer" class="overflow-auto max-h-[85vh] p-4 flex justify-center bg-slate-50/50">
+        <div id="zoomWrapper" class="transition-transform duration-150 origin-top">
+          <pre class="mermaid" id="mermaidContainer">
+erDiagram
+    users {
+        uuid user_id PK
+        string full_name
+        string email UK
+        string password_hash
+        string role
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    garment_categories {
+        uuid category_id PK
+        string category_name UK
+        text description
+        int default_max_cycle
+        timestamp created_at
+    }
+
+    tags {
+        uuid tag_id PK
+        string tag_uid UK
+        string tag_type
+        string manufacturer
+        int rated_max_cycles
+        int total_cycles_used
+        string status
+        date date_first_deployed
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    garments {
+        uuid garment_id PK
+        string garment_code UK
+        uuid category_id FK
+        string size
+        uuid current_tag_id FK
+        int max_cycle_limit
+        int current_cycle_count
+        string status
+        date date_first_used
+        date date_retired
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    tag_garment_bindings {
+        uuid binding_id PK
+        uuid tag_id FK
+        uuid garment_id FK
+        timestamp bound_at
+        timestamp unbound_at
+        uuid bound_by FK
+        string unbind_reason
+        boolean is_current
+        char active_tag_uid UK
+        char active_garment_uid UK
+    }
+
+    autoclave_machines {
+        uuid machine_id PK
+        string machine_name
+        string location
+        date install_date
+        string status
+    }
+
+    autoclave_sessions {
+        uuid session_id PK
+        uuid machine_id FK
+        date session_date
+        smallint session_number
+        timestamp start_time
+        timestamp end_time
+        uuid operator_id FK
+        string status
+    }
+
+    devices {
+        uuid device_id PK
+        string device_name
+        string location
+        string mac_address UK
+        string api_key_hash
+        string status
+        timestamp last_heartbeat_at
+        date installed_at
+        timestamp created_at
+    }
+
+    scan_events {
+        uuid event_id PK
+        uuid tag_id FK
+        uuid garment_id FK
+        uuid session_id FK
+        uuid device_id FK
+        string event_type
+        timestamp scan_timestamp
+        int cycle_count_after
+        string location
+        timestamp created_at
+    }
+
+    alerts {
+        uuid alert_id PK
+        uuid garment_id FK
+        uuid tag_id FK
+        uuid device_id FK
+        string alert_type
+        string severity
+        text message
+        timestamp triggered_at
+        timestamp resolved_at
+        uuid resolved_by FK
+        string status
+    }
+
+    notifications {
+        uuid notification_id PK
+        string category
+        text message
+        timestamp created_at
+    }
+
+    audit_logs {
+        uuid log_id PK
+        string table_name
+        uuid record_id
+        string action
+        json old_value
+        json new_value
+        uuid changed_by FK
+        timestamp changed_at
+    }
+
+    reports_generated {
+        uuid report_id PK
+        string report_type
+        uuid generated_by FK
+        date date_range_start
+        date date_range_end
+        string file_path
+        timestamp generated_at
+    }
+
+    %% Relasi Antar Tabel
+    garment_categories ||--o{ garments : "categorizes"
+    tags ||--o{ garments : "current_tag"
+    tags ||--o{ tag_garment_bindings : "binds_history"
+    garments ||--o{ tag_garment_bindings : "binding_history"
+    users ||--o{ tag_garment_bindings : "bound_by_user"
+    
+    autoclave_machines ||--o{ autoclave_sessions : "hosts"
+    users ||--o{ autoclave_sessions : "operates"
+    
+    tags ||--o{ scan_events : "tag_scanned"
+    garments ||--o{ scan_events : "garment_scanned"
+    autoclave_sessions |o--o{ scan_events : "session_cycle"
+    devices ||--o{ scan_events : "scanned_at_device"
+    
+    garments |o--o{ alerts : "garment_alert"
+    tags |o--o{ alerts : "tag_alert"
+    devices |o--o{ alerts : "device_alert"
+    users |o--o{ alerts : "resolved_by_user"
+    
+    users |o--o{ audit_logs : "performed_by"
+    users |o--o{ reports_generated : "generated_by_user"
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabel Rangkuman Kamus Data -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+      <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        Daftar Entitas & Deskripsi Relasi
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-left text-slate-600">
+          <thead class="text-xs uppercase bg-slate-100 text-slate-700">
+            <tr>
+              <th class="py-2.5 px-4 rounded-l-lg font-bold">Nama Tabel</th>
+              <th class="py-2.5 px-4 font-bold">Primary Key</th>
+              <th class="py-2.5 px-4 font-bold">Foreign Key & Relasi</th>
+              <th class="py-2.5 px-4 rounded-r-lg font-bold">Fungsi Utama</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">garments</td>
+              <td class="py-3 px-4"><code>garment_id</code> (UUID)</td>
+              <td class="py-3 px-4"><code>category_id</code>, <code>current_tag_id</code></td>
+              <td class="py-3 px-4">Menyimpan data fisik baju, ukuran, limit siklus sterilisasi, dan jumlah siklus terkini.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">tags</td>
+              <td class="py-3 px-4"><code>tag_id</code> (UUID)</td>
+              <td class="py-3 px-4">-</td>
+              <td class="py-3 px-4">Menyimpan UID tag RFID fisik UHF, toleransi siklus (±200x), dan total siklus tag.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">tag_garment_bindings</td>
+              <td class="py-3 px-4"><code>binding_id</code> (UUID)</td>
+              <td class="py-3 px-4"><code>tag_id</code>, <code>garment_id</code>, <code>bound_by</code></td>
+              <td class="py-3 px-4">Mencatat riwayat bongkar-pasang tag ke baju (memungkinkan re-use tag ke baju baru).</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">scan_events</td>
+              <td class="py-3 px-4"><code>event_id</code> (UUID)</td>
+              <td class="py-3 px-4"><code>tag_id</code>, <code>garment_id</code>, <code>session_id</code>, <code>device_id</code></td>
+              <td class="py-3 px-4">Log pembacaan RFID realtime (pre_autoclave, post_autoclave, checkpoint gowning).</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">devices</td>
+              <td class="py-3 px-4"><code>device_id</code> (UUID)</td>
+              <td class="py-3 px-4">-</td>
+              <td class="py-3 px-4">Data modul reader ESP32 (MAC address, hashed API key, heartbeat, status online).</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">autoclave_sessions</td>
+              <td class="py-3 px-4"><code>session_id</code> (UUID)</td>
+              <td class="py-3 px-4"><code>machine_id</code>, <code>operator_id</code></td>
+              <td class="py-3 px-4">Sesi operasional mesin autoclave sterilisasi per tanggal dan nomor batch.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">autoclave_machines</td>
+              <td class="py-3 px-4"><code>machine_id</code> (UUID)</td>
+              <td class="py-3 px-4">-</td>
+              <td class="py-3 px-4">Master mesin autoclave sterilisasi dan lokasinya di fasilitas pabrik.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">alerts</td>
+              <td class="py-3 px-4"><code>alert_id</code> (UUID)</td>
+              <td class="py-3 px-4"><code>garment_id</code>, <code>tag_id</code>, <code>device_id</code>, <code>resolved_by</code></td>
+              <td class="py-3 px-4">Early warning jika garment/tag mendekati limit siklus atau perangkat reader offline.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">users</td>
+              <td class="py-3 px-4"><code>user_id</code> (UUID)</td>
+              <td class="py-3 px-4">-</td>
+              <td class="py-3 px-4">Pengguna web dengan otorisasi RBAC (admin, operator, qa_supervisor, auditor).</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-4 font-bold text-sky-700">audit_logs</td>
+              <td class="py-3 px-4"><code>log_id</code> (UUID)</td>
+              <td class="py-3 px-4"><code>changed_by</code></td>
+              <td class="py-3 px-4">Jejak audit regulasi (cGMP/ISO 14644) perubahan data (diff JSON nilai lama vs baru).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      themeVariables: {
+        primaryColor: '#e0f2fe',
+        primaryBorderColor: '#0284c7',
+        primaryTextColor: '#0f172a',
+        lineColor: '#64748b'
+      }
+    });
+
+    let currentZoom = 1;
+    const zoomWrapper = document.getElementById('zoomWrapper');
+
+    document.getElementById('btnZoomIn').addEventListener('click', () => {
+      currentZoom += 0.15;
+      zoomWrapper.style.transform = `scale(${currentZoom})`;
+    });
+
+    document.getElementById('btnZoomOut').addEventListener('click', () => {
+      if (currentZoom > 0.3) {
+        currentZoom -= 0.15;
+        zoomWrapper.style.transform = `scale(${currentZoom})`;
+      }
+    });
+
+    document.getElementById('btnResetZoom').addEventListener('click', () => {
+      currentZoom = 1;
+      zoomWrapper.style.transform = `scale(1)`;
+    });
+
+    // Download SVG
+    document.getElementById('btnDownloadSvg').addEventListener('click', () => {
+      const svg = document.querySelector('.mermaid svg');
+      if (!svg) return alert('Diagram belum selesai di-render.');
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const svgUrl = URL.createObjectURL(svgBlob);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = svgUrl;
+      downloadLink.download = 'ERD_AlfarFID_Cleanroom.svg';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    });
+
+    // Download PNG
+    document.getElementById('btnDownloadPng').addEventListener('click', () => {
+      const svg = document.querySelector('.mermaid svg');
+      if (!svg) return alert('Diagram belum selesai di-render.');
+      
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+
+      img.onload = () => {
+        // High-res factor (2x scale for crisp print)
+        const scale = 2;
+        canvas.width = svg.getBoundingClientRect().width * scale;
+        canvas.height = svg.getBoundingClientRect().height * scale;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+
+        const pngUrl = canvas.toDataURL('image/png');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pngUrl;
+        downloadLink.download = 'ERD_AlfarFID_Cleanroom.png';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      };
+      img.src = url;
+    });
+  </script>
+</body>
+</html>

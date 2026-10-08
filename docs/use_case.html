@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Use Case Diagram (2 Role: Superadmin & Staff) - AlfarFID</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .mermaid svg {
+      max-width: 100% !important;
+      height: auto;
+      filter: drop-shadow(0 4px 6px -1px rgb(0 0 0 / 0.05));
+    }
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800">
+  <!-- Header Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+          UC
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-900 leading-tight">AlfarFID Smart Cleanroom</h1>
+          <p class="text-xs text-slate-500 font-medium">UML Use Case Diagram (2 Role: Superadmin & Staff)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="btnZoomIn" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-xs font-semibold transition">
+          🔍 Zoom In
+        </button>
+        <button id="btnZoomOut" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-xs font-semibold transition">
+          🔍 Zoom Out
+        </button>
+        <button id="btnResetZoom" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-xs font-semibold transition">
+          🔄 Reset
+        </button>
+        <button id="btnDownloadSvg" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-xs font-semibold shadow-sm transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Unduh SVG
+        </button>
+        <button id="btnDownloadPng" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md text-xs font-semibold shadow-sm transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Unduh PNG
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <!-- Info Banner -->
+    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+      <div class="text-indigo-600 mt-0.5">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <div class="text-xs text-indigo-900 leading-relaxed">
+        <span class="font-bold">Konfigurasi 2 Role Pengguna:</span>
+        Sistem disederhanakan menjadi 2 peran pengguna utama: <strong>Superadmin</strong> (hak akses penuh untuk konfigurasi, master data, perangkat, user management, dan audit) dan <strong>Staff</strong> (operasional harian pembacaan RFID, monitoring realtime, dan unduh laporan), didukung aktor perangkat keras <strong>ESP32 UHF Reader</strong>.
+      </div>
+    </div>
+
+    <!-- Diagram Box -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden mb-6">
+      <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center justify-between text-xs font-semibold text-slate-600">
+        <span>Visualisasi UML Use Case Diagram (2 Role)</span>
+        <span class="text-slate-400">Gunakan scroll mouse atau tombol zoom di atas</span>
+      </div>
+      <div id="diagramContainer" class="overflow-auto max-h-[85vh] p-4 flex justify-center bg-slate-50/50">
+        <div id="zoomWrapper" class="transition-transform duration-150 origin-top">
+          <pre class="mermaid" id="mermaidContainer">
+flowchart LR
+    %% Definisi Aktor
+    subgraph ACTORS_HUMAN ["Aktor Pengguna"]
+        Superadmin["👤 Superadmin"]
+        Staff["👤 Staff"]
+    end
+
+    subgraph ACTORS_IOT ["Aktor Perangkat Keras"]
+        ESP32["📟 Perangkat IoT<br/>(ESP32 UHF Reader)"]
+    end
+
+    %% Batasan Sistem Utama
+    subgraph SYSTEM ["BATASAN SISTEM ALFARFID SMART CLEANROOM"]
+        direction TB
+
+        %% Kelompok 1: Manajemen Akun & Pengguna
+        subgraph G_AUTH ["1. Akses & Manajemen Akun"]
+            UC_LOGIN(["UC-01: Login & Kelola Profil"])
+            UC_USER(["UC-02: Manajemen Pengguna (Superadmin & Staff)"])
+        end
+
+        %% Kelompok 2: Master Data & Sirkulasi Tag
+        subgraph G_GARMENT ["2. Master Garment & Sirkulasi Tag"]
+            UC_GARMENT(["UC-03: Kelola Master Garment, Kategori & Divisi"])
+            UC_TAG(["UC-04: Kelola Tag RFID & Mode Registrasi"])
+            UC_REASSIGN(["UC-05: Sirkulasi Pintar (Pindah Tag / Ganti Tag)"])
+        end
+
+        %% Kelompok 3: Operasional Scan & IoT
+        subgraph G_IOT ["3. Pelacakan Sterilisasi & IoT"]
+            UC_SCAN(["UC-06: Pembacaan RFID (Sterilisasi / Gowning)"])
+            UC_DEVICE(["UC-07: Manajemen Perangkat Reader & API Key"])
+            UC_AUTH_DEVICE(["UC-08: Otentikasi Perangkat (MAC & API Key)"])
+            UC_ANTI_STRAY(["UC-09: Validasi Anti Stray-Read (Min Dwell Time)"])
+        end
+
+        %% Kelompok 4: Monitoring, Analitik & Laporan
+        subgraph G_MONITOR ["4. Monitoring, Analitik & Regulasi"]
+            UC_DASHBOARD(["UC-10: Monitoring Realtime Dashboard & Scan Events"])
+            UC_ALERT(["UC-11: Tangani Alerts Siklus & Reader Offline"])
+            UC_ANALYTICS(["UC-12: Analisis Tren & Prediksi Pensiun"])
+            UC_AUDIT(["UC-13: Peninjauan Log Audit Trail (cGMP/ISO)"])
+            UC_REPORT(["UC-14: Generate & Unduh Laporan"])
+        end
+    end
+
+    %% Hubungan Asosiasi Superadmin (Hak Akses Lengkap)
+    Superadmin --- UC_LOGIN
+    Superadmin --- UC_USER
+    Superadmin --- UC_GARMENT
+    Superadmin --- UC_TAG
+    Superadmin --- UC_REASSIGN
+    Superadmin --- UC_DEVICE
+    Superadmin --- UC_DASHBOARD
+    Superadmin --- UC_ALERT
+    Superadmin --- UC_ANALYTICS
+    Superadmin --- UC_AUDIT
+    Superadmin --- UC_REPORT
+
+    %% Hubungan Asosiasi Staff (Operasional & Monitoring)
+    Staff --- UC_LOGIN
+    Staff --- UC_DASHBOARD
+    Staff --- UC_SCAN
+    Staff --- UC_REPORT
+
+    %% Hubungan Perangkat IoT (Hardware Reader)
+    ESP32 --- UC_SCAN
+    ESP32 --- UC_TAG
+
+    %% Relasi Include & Extend
+    UC_SCAN -.->|&lt;&lt;include&gt;&gt;| UC_AUTH_DEVICE
+    UC_SCAN -.->|&lt;&lt;include&gt;&gt;| UC_ANTI_STRAY
+    UC_SCAN -.->|&lt;&lt;extend&gt;&gt;| UC_ALERT
+    UC_REASSIGN -.->|&lt;&lt;include&gt;&gt;| UC_AUDIT
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spesifikasi Tabel 2 Role -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-6">
+      <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        Matriks Use Case Berdasarkan 2 Role
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-left text-slate-600">
+          <thead class="text-xs uppercase bg-slate-100 text-slate-700">
+            <tr>
+              <th class="py-2.5 px-3 rounded-l-lg font-bold">Kode</th>
+              <th class="py-2.5 px-4 font-bold">Nama Fungsional Use Case</th>
+              <th class="py-2.5 px-3 font-bold text-center">Superadmin</th>
+              <th class="py-2.5 px-3 font-bold text-center">Staff</th>
+              <th class="py-2.5 px-3 font-bold text-center">ESP32 Reader</th>
+              <th class="py-2.5 px-4 rounded-r-lg font-bold">Keterangan / Relasi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-01</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Login & Kelola Profil</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Autentikasi akun dan ubah password mandiri.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-02</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Manajemen Pengguna (Superadmin & Staff)</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-rose-500 font-bold">✗</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Membuat, mengubah, dan menonaktifkan akun.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-03</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Kelola Master Garment, Kategori & Divisi</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-rose-500 font-bold">✗</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Registrasi baju (auto kode GRM001..), limit siklus.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-04</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Kelola Tag RFID & Mode Registrasi</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-rose-500 font-bold">✗</td>
+              <td class="py-2.5 px-3 text-center text-indigo-600 font-bold">✓</td>
+              <td class="py-2.5 px-4">Scan tag baru secara nirkabel dari reader manapun.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-05</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Sirkulasi Pintar (Pindah / Ganti Tag)</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-rose-500 font-bold">✗</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Pemisahan alur kain rusak vs tag aus. <em>&lt;&lt;include&gt;&gt; UC-13</em>.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-06</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Pembacaan RFID (Sterilisasi / Gowning)</td>
+              <td class="py-2.5 px-3 text-center text-slate-400">Otomatis</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-indigo-600 font-bold">✓</td>
+              <td class="py-2.5 px-4">Scan baju di portal antena. <em>&lt;&lt;include&gt;&gt; UC-08, UC-09</em>.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-07</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Manajemen Perangkat & API Key</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-rose-500 font-bold">✗</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Daftar reader ESP32 baru dan regenerasi API key.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-08</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Otentikasi Perangkat (MAC & Key)</td>
+              <td colspan="3" class="py-2.5 px-3 text-center text-slate-500 italic">Diproses Otomatis oleh Middleware Server</td>
+              <td class="py-2.5 px-4">Memvalidasi header <code>X-Device-Mac</code> &amp; <code>X-Api-Key</code>.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-09</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Validasi Anti Stray-Read (Min Dwell)</td>
+              <td colspan="3" class="py-2.5 px-3 text-center text-slate-500 italic">Diproses Otomatis oleh Logika Server</td>
+              <td class="py-2.5 px-4">Mencegah double scan (laundry 9 jam, autoclave 30 menit).</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-10</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Monitoring Realtime & Scan Events</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Dashboard live KPI &amp; feed aktivitas scan detik-per-detik.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-11</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Tangani Alerts Siklus & Reader Offline</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-rose-500 font-bold">✗</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Acknowledge &amp; resolve peringatan siklus kritis (<em>&lt;&lt;extend&gt;&gt;</em>).</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-12</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Analisis Tren & Prediksi Pensiun</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-rose-500 font-bold">✗</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Grafik analitik tren autoclave dan perkiraan pensiun kain.</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-13</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Peninjauan Log Audit Trail (cGMP)</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-rose-500 font-bold">✗</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Pemeriksaan jejak perubahan data forensik (ISO 14644/cGMP).</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-3 font-bold text-indigo-600">UC-14</td>
+              <td class="py-2.5 px-4 font-medium text-slate-900">Generate & Unduh Laporan</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+              <td class="py-2.5 px-3 text-center text-slate-300">-</td>
+              <td class="py-2.5 px-4">Ekspor riwayat scan &amp; status pakaian ke Excel/CSV/PDF.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      themeVariables: {
+        primaryColor: '#e0e7ff',
+        primaryBorderColor: '#6366f1',
+        primaryTextColor: '#1e1b4b',
+        lineColor: '#64748b'
+      }
+    });
+
+    let currentZoom = 1;
+    const zoomWrapper = document.getElementById('zoomWrapper');
+
+    document.getElementById('btnZoomIn').addEventListener('click', () => {
+      currentZoom += 0.15;
+      zoomWrapper.style.transform = `scale(${currentZoom})`;
+    });
+
+    document.getElementById('btnZoomOut').addEventListener('click', () => {
+      if (currentZoom > 0.3) {
+        currentZoom -= 0.15;
+        zoomWrapper.style.transform = `scale(${currentZoom})`;
+      }
+    });
+
+    document.getElementById('btnResetZoom').addEventListener('click', () => {
+      currentZoom = 1;
+      zoomWrapper.style.transform = `scale(1)`;
+    });
+
+    // Download SVG
+    document.getElementById('btnDownloadSvg').addEventListener('click', () => {
+      const svg = document.querySelector('.mermaid svg');
+      if (!svg) return alert('Diagram belum selesai di-render.');
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const svgUrl = URL.createObjectURL(svgBlob);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = svgUrl;
+      downloadLink.download = 'UseCase_AlfarFID_2Roles.svg';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    });
+
+    // Download PNG
+    document.getElementById('btnDownloadPng').addEventListener('click', () => {
+      const svg = document.querySelector('.mermaid svg');
+      if (!svg) return alert('Diagram belum selesai di-render.');
+      
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+
+      img.onload = () => {
+        const scale = 2;
+        canvas.width = svg.getBoundingClientRect().width * scale;
+        canvas.height = svg.getBoundingClientRect().height * scale;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+
+        const pngUrl = canvas.toDataURL('image/png');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pngUrl;
+        downloadLink.download = 'UseCase_AlfarFID_2Roles.png';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      };
+      img.src = url;
+    });
+  </script>
+</body>
+</html>

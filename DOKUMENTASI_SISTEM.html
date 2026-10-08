@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dokumentasi Sistem AlfarFID Smart Cleanroom</title>
+<style>
+  @page {
+    size: A4;
+    margin: 2.5cm;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1e293b;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px 40px;
+    background: #ffffff;
+  }
+  .header-cover {
+    border-bottom: 3px solid #b85d30;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+  }
+  .tagline {
+    color: #b85d30;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 28px;
+    color: #0f172a;
+    margin: 8px 0 4px 0;
+  }
+  .subtitle {
+    color: #64748b;
+    font-size: 14px;
+    font-style: italic;
+    margin: 0;
+  }
+  h2 {
+    color: #b85d30;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-top: 32px;
+    font-size: 18px;
+  }
+  h3 {
+    color: #0f172a;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+  p, li {
+    font-size: 13.5px;
+    color: #334155;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px 0;
+    font-size: 12.5px;
+  }
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+  }
+  td {
+    padding: 9px 12px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  .code-block {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #b85d30;
+    padding: 12px 16px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 12px;
+    color: #0f172a;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    margin: 12px 0;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge-success { background: #dcfce7; color: #15803d; }
+  .badge-warning { background: #fef9c3; color: #854d0e; }
+  .badge-danger  { background: #fee2e2; color: #b91c1c; }
+  .badge-stage   { background: #eff6ff; color: #1d4ed8; font-family: monospace; }
+  ul {
+    padding-left: 20px;
+  }
+  li {
+    margin-bottom: 6px;
+  }
+  .footer {
+    margin-top: 40px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 12px;
+    font-size: 11px;
+    color: #94a3b8;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="header-cover">
+  <div class="tagline">Dokumentasi Sistem Resmi</div>
+  <h1>AlfarFID Smart Cleanroom</h1>
+  <p class="subtitle">Centralized RFID Garment Tracking, Sterilization Lifecycle & IoT Monitoring Platform</p>
+</div>
+
+<h2>1. Tentang Sistem</h2>
+<p><strong>AlfarFID Smart Cleanroom</strong> adalah platform perangkat lunak dan Internet of Things (IoT) terintegrasi yang dirancang khusus untuk memantau, mengelola, dan melacak pergerakan serta siklus hidup pakaian kerja steril (<em>cleanroom garments</em>) secara otomatis menggunakan teknologi <strong>RFID UHF (Ultra High Frequency)</strong>.</p>
+<p>Di industri farmasi, medis, dan manufaktur semikonduktor dengan standar ketat (seperti cGMP dan ISO 14644), integritas partikel dan sterilitas pakaian kerja adalah parameter vital. AlfarFID hadir untuk mengotomatisasi pengawasan siklus pakaian dari pencucian, sterilisasi autoclave, penyimpanan ruang steril, hingga pemakaian oleh operator.</p>
+
+<h3>Tantangan & Solusi yang Dihadirkan:</h3>
+<ul>
+  <li><strong>Pelacakan Batas Toleransi Sterilisasi:</strong> Mencegah penggunaan pakaian yang telah melebihi batas maksimal siklus autoclave (misal 50 siklus) demi menjaga kerapatan serat kain.</li>
+  <li><strong>Pemisahan Siklus Baju vs Tag:</strong> Tag RFID silikon tahan hingga 200 siklus, sedangkan baju umumnya bertahan 50 siklus. Sistem mendukung alur <em>Pindah Tag</em> untuk menghemat anggaran pengadaan.</li>
+  <li><strong>Pencegahan Human Error & Stray-Read:</strong> Dilengkapi algoritma <em>Anti Stray-Read (Dwell Time)</em> untuk menolak pembacaan RFID tidak sengaja di dekat reader.</li>
+  <li><strong>Kepatuhan Regulasi & Audit Trail:</strong> Seluruh riwayat transaksi data (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) tercatat otomatis dengan stempel waktu mikrodetik dan riwayat perubahan nilai.</li>
+</ul>
+
+<h2>2. Arsitektur & Tech Stack</h2>
+<p>Sistem AlfarFID terdiri dari dua komponen utama: Perangkat Keras (Hardware Reader IoT) dan Perangkat Lunak (Web Application Server).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Komponen</th>
+      <th style="width: 35%;">Teknologi / Modul</th>
+      <th style="width: 40%;">Peran & Fungsi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Backend Framework</strong></td>
+      <td>Laravel 10.x (PHP 8.1 / 8.2)</td>
+      <td>REST API, Business Logic, Web Portal, Auth, dan Scheduler</td>
+    </tr>
+    <tr>
+      <td><strong>Database</strong></td>
+      <td>MySQL 8.0 / MariaDB</td>
+      <td>Penyimpanan terstruktur dengan UUID PK, Triggers, Views & Stored Procedures</td>
+    </tr>
+    <tr>
+      <td><strong>Frontend UI</strong></td>
+      <td>Tailwind CSS & Alpine.js</td>
+      <td>Antarmuka responsif modern Cleanroom Theme dan manipulasi DOM ringan</td>
+    </tr>
+    <tr>
+      <td><strong>Visualisasi Grafik</strong></td>
+      <td>Chart.js</td>
+      <td>Grafik tren scan harian/mingguan dan distribusi keausan siklus</td>
+    </tr>
+    <tr>
+      <td><strong>Microcontroller</strong></td>
+      <td>ESP32 NodeMCU 32-Bit</td>
+      <td>Kontroler pembacaan RFID, konektivitas WiFi HTTP, dan display TFT</td>
+    </tr>
+    <tr>
+      <td><strong>RFID Reader</strong></td>
+      <td>UHF RFID Reader Module (UART)</td>
+      <td>Pembacaan tag RFID UHF jarak 0.5 - 2 meter secara nirkabel</td>
+    </tr>
+    <tr>
+      <td><strong>Display Terminal</strong></td>
+      <td>TFT LCD SPI ILI9341 2.8"</td>
+      <td>Tampilan visual status baju, hasil scan, dan peringatan di pos fisik</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3. Struktur Basis Data & Entitas Utama</h2>
+<p>Basis data AlfarFID menggunakan arsitektur UUID Primary Key (CHAR 36) untuk mendukung replikasi dan integritas data multi-plant. Berikut adalah entitas utama:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Nama Tabel</th>
+      <th style="width: 20%;">Kunci Utama</th>
+      <th style="width: 55%;">Deskripsi & Relasi Penting</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>garments</code></td>
+      <td><code>garment_id</code> (UUID)</td>
+      <td>Menyimpan kode baju (GRM001), ukuran, divisi, status (active/in_repair/damaged/retired), stage terkini, dan total siklus.</td>
+    </tr>
+    <tr>
+      <td><code>tags</code></td>
+      <td><code>tag_id</code> (UUID)</td>
+      <td>Menyimpan UID tag RFID fisik (tag_uid), total_cycles_used, rated_max_cycles (default 200), dan status.</td>
+    </tr>
+    <tr>
+      <td><code>tag_garment_bindings</code></td>
+      <td><code>binding_id</code> (UUID)</td>
+      <td>Riwayat relasi many-to-many historis antara tag dan garment. Flag is_current menandai tag aktif.</td>
+    </tr>
+    <tr>
+      <td><code>devices</code></td>
+      <td><code>device_id</code> (UUID)</td>
+      <td>Data reader ESP32, MAC address, hash API key, lokasi fisik, status online/offline, dan timestamp heartbeat.</td>
+    </tr>
+    <tr>
+      <td><code>scan_events</code></td>
+      <td><code>event_id</code> (UUID)</td>
+      <td>Log transaksi pembacaan RFID: event_type, stempel waktu mikrodetik, cycle_count_after, dan relasi ke device & user.</td>
+    </tr>
+    <tr>
+      <td><code>alerts</code></td>
+      <td><code>alert_id</code> (UUID)</td>
+      <td>Notifikasi sistem otomatis: cycle_warning (90%), cycle_exceeded (100%), device_offline, dan tag_wear_warning.</td>
+    </tr>
+    <tr>
+      <td><code>divisions</code></td>
+      <td><code>division_id</code> (UUID)</td>
+      <td>Divisi operasional (Produksi Steril, QC, Packaging) lengkap dengan kode warna visual (color_hex).</td>
+    </tr>
+    <tr>
+      <td><code>garment_categories</code></td>
+      <td><code>category_id</code> (UUID)</td>
+      <td>Kategori baju (Coverall, Hood, Booties) dan default batas siklus autoclave (default_max_cycle).</td>
+    </tr>
+    <tr>
+      <td><code>audit_logs</code></td>
+      <td><code>log_id</code> (UUID)</td>
+      <td>Riwayat perubahan data: aksi (INSERT/UPDATE/DELETE), pelaku (changed_by), dan JSON diff nilai lama vs baru.</td>
+    </tr>
+    <tr>
+      <td><code>users</code></td>
+      <td><code>user_id</code> (UUID)</td>
+      <td>Pengguna sistem dengan role-based authorization (admin, operator, viewer).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>4. Siklus Hidup Pakaian (State Machine & Stage Flow)</h2>
+<p>AlfarFID menggunakan prinsip <strong>Server-Determined Stage Flow</strong>. Perangkat pembaca RFID (ESP32) tidak perlu menentukan jenis transaksi secara manual. Perangkat cukup mengirimkan UID tag yang terbaca, dan server secara otomatis menentukan transisi stage berdasarkan kondisi baju saat itu:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Stage Asal</th>
+      <th>Event Scan</th>
+      <th>Stage Tujuan</th>
+      <th>Min Dwell (Anti Stray-Read)</th>
+      <th>+Siklus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-stage">siap_digunakan</span></td>
+      <td><code>usage_checkpoint</code></td>
+      <td><span class="badge badge-stage">sedang_dipakai</span></td>
+      <td>0 menit (Bebas diambil kapan saja)</td>
+      <td>Tidak</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-stage">sedang_dipakai</span></td>
+      <td><code>pre_autoclave</code></td>
+      <td><span class="badge badge-stage">pre_autoclave</span></td>
+      <td>9 jam (540 menit pemakaian + laundry)</td>
+      <td>Tidak</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-stage">pre_autoclave</span></td>
+      <td><code>post_autoclave</code></td>
+      <td><span class="badge badge-stage">siap_digunakan</span></td>
+      <td>30 menit (Proses sterilisasi autoclave)</td>
+      <td><span class="badge badge-success">+1 (Siklus Bertambah)</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Mekanisme Proteksi Anti Stray-Read (Dwell Time):</h3>
+<p>Untuk mencegah salah baca ketika baju hanya melintas di dekat antena reader RFID, sistem memberlakukan batas waktu minimal keberadaan baju di setiap stage (<em>Min Dwell</em>). Bila scan diterima sebelum batas waktu terpenuhi, server akan menolak dengan pesan sisa waktu (misal: <code>GRM001 4.5 jam lagi</code>).</p>
+
+<h2>5. Modul & Fitur Utama Aplikasi</h2>
+
+<h3>5.1 Dashboard & KPI Realtime</h3>
+<p>Menyajikan ringkasan metrik instan: Total Garment Aktif, Tag Aktif, Item Kritis (&ge;90% siklus), Scan Hari Ini, dan Status Reader Online. Dilengkapi tabel live feed 8 aktivitas scan sterilisasi terakhir.</p>
+
+<h3>5.2 Master Data Garment & Tag RFID</h3>
+<ul>
+  <li><strong>Auto-Generate Kode Garment:</strong> Pembuatan kode otomatis berurutan (<code>GRM001</code>, <code>GRM002</code>, dst) yang terkunci agar mencegah duplikasi.</li>
+  <li><strong>Mode Registrasi RFID Global:</strong> Mode penangkapan scan nirkabel dari reader ESP32 mana pun untuk registrasi tag baru tanpa ketik manual.</li>
+  <li><strong>Pagination & Sorting:</strong> Tabel data dilengkapi pagination 10 baris per halaman dan data terbaru tampil di posisi teratas.</li>
+</ul>
+
+<h3>5.3 Sirkulasi Pintar: Pindah Tag vs Ganti Tag</h3>
+<ul>
+  <li><strong>Pindah Tag (<code>/admin/pindah-tag</code>):</strong> Dijalankan ketika kain baju rusak/robek namun tag RFID masih memiliki sisa siklus. Tag dipindahkan ke baju baru yang belum bertag.</li>
+  <li><strong>Ganti Tag (<code>/admin/ganti-tag</code>):</strong> Dijalankan ketika tag RFID aus/rusak namun kain baju masih bagus. Baju dipasangkan tag baru tanpa mereset riwayat siklus baju.</li>
+</ul>
+
+<h3>5.4 Early Warning System & Alerts</h3>
+<ul>
+  <li><strong>Warning Alert (&ge;90% batas siklus):</strong> Memberikan aba-aba persiapan pengadaan.</li>
+  <li><strong>Critical Alert (&ge;100% batas siklus):</strong> Notifikasi merah berdenyut; pakaian wajib segera dipensiunkan (retired).</li>
+  <li><strong>Alur Penanganan:</strong> Tombol <em>Acknowledge</em> (diketahui operator) dan <em>Resolve</em> (diselesaikan dengan catatan petugas & stempel waktu).</li>
+</ul>
+
+<h3>5.5 Analytics & Prediksi Waktu Pensiun</h3>
+<p>Menyediakan grafik tren pembacaan RFID harian/mingguan, distribusi umur baju, distribusi keausan tag RFID silikon, serta prediksi jumlah baju yang akan retired dalam 7 dan 14 hari ke depan berdasarkan frekuensi penggunaan rata-rata.</p>
+
+<h3>5.6 Audit Trail Terintegrasi</h3>
+<p>Mencatat seluruh rekam jejak manipulasi data (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) pada seluruh tabel master, lengkap dengan panel ekspansi perbandingan nilai lama vs nilai baru (JSON diff) dan filter pencarian berparameter.</p>
+
+<h3>5.7 Manajemen Perangkat IoT & API Key</h3>
+<p>Mendaftarkan unit ESP32 reader baru, menetapkan lokasi fisik, memantau detak jantung (heartbeat), serta mengelola kunci API rahasia (<code>af_dev_...</code>) lengkap dengan fitur <em>Regenerate Key</em>.</p>
+
+<h2>6. Protokol Integrasi IoT (ESP32 RFID Reader)</h2>
+<p>Perangkat ESP32 berkomunikasi dengan server Laravel menggunakan format REST API JSON standar HTTP/HTTPS.</p>
+
+<h3>1. HTTP Header Autentikasi Wajib:</h3>
+<div class="code-block">POST /scan-events HTTP/1.1
+Host: 192.168.1.106:8000
+Content-Type: application/json
+X-Device-Mac: 24:6F:28:AB:CD:EF
+X-Api-Key: af_dev_7a9f8b2c4e6d1a3b5c7e9f0a</div>
+
+<h3>2. Request Payload JSON:</h3>
+<div class="code-block">{
+  "tag_uid": "E2801170000002157A89BC12"
+}</div>
+
+<h3>3. Contoh Respons Sukses (HTTP 201 Created):</h3>
+<div class="code-block">{
+  "message": "Scan berhasil dicatat.",
+  "mode": "operational",
+  "data": {
+    "event_id": "d7e1c4a2-4f8b-4c2e-9a1b-3c4d5e6f7a8b",
+    "garment_code": "GRM001",
+    "division_name": "Produksi Steril",
+    "tag_uid": "E2801170000002157A89BC12",
+    "event_type": "post_autoclave",
+    "cycle_count_after": 12,
+    "max_cycle_limit": 50,
+    "new_stage": "siap_digunakan",
+    "threshold_status": "ok"
+  }
+}</div>
+
+<h2>7. Panduan Instalasi & Konfigurasi Server</h2>
+<ul>
+  <li>Pastikan PHP &ge; 8.1 dan MySQL/MariaDB sudah aktif di XAMPP.</li>
+  <li>Jalankan <code>composer install</code> di folder proyek.</li>
+  <li>Sesuaikan konfigurasi koneksi database di file <code>.env</code> (<code>DB_DATABASE=alfarfid</code>).</li>
+  <li>Eksekusi migrasi database dan data awal: <code>php artisan migrate --seed</code></li>
+  <li>Jalankan web server: <code>php artisan serve --host=0.0.0.0 --port=8000</code></li>
+</ul>
+
+<div class="footer">
+  &copy; 2026 AlfarFID Smart Cleanroom System &mdash; Dokumentasi Resmi & Panduan Teknis
+</div>
+
+</body>
+</html>
